@@ -9,16 +9,23 @@ class App{
                 switch ($choix) {
                     case '1':
                         $compte=CompteView::saisieCompte();
-                        $compteService->addCompte( $compte);
+
+                        if ($compteService->searchCompteByNum($compte->getNumero())==null) {
+                            $compteService->addCompte( $compte);
+                        }else{
+                            echo "Le numero existe deja";
+                        }
+                      
                         break;
                    case '2':
+                        //$compteService->listerCompte();
                         CompteView::afficheCompte($compteService->listerCompte());
                         break;
                     default:
                         # code...
                         break;
                 }
-             } while ($choix <= 10);
+             } while ($choix !=3);
     }
 
     public static function menu():string{

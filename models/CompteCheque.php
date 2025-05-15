@@ -4,8 +4,9 @@ class CompteCheque extends Compte{
 
    //Java super objet parent i.e Compte
    //PHP parent objet parent i.e Compte
-    public function  __construct(){   
-          // parent::__construct();//super()
+    public function  __construct(float $solde=0){   
+           parent::__construct($solde);//super()
+           
     }
     public  function retrait(Transaction $transaction){
         $montant=self::Frais*$transaction->getMontant();
@@ -14,7 +15,7 @@ class CompteCheque extends Compte{
 
     }
     public  function depot(Transaction $transaction){
-        $montant=self::Frais*$transaction->getMontant();
+        $montant=CompteCheque::Frais*$transaction->getMontant();
         $this->solde+=$montant;
         $this->addTransaction($transaction);
        

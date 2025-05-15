@@ -5,6 +5,7 @@ class CompteView{
     
     public static function saisieCompte():Compte{
           $solde=(float)  readline("Saisir le Solde");
+
           do {
             print("1-Epargne\n");
             print("2-Cheque\n");

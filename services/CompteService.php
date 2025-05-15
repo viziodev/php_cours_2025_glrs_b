@@ -1,29 +1,25 @@
 <?php 
 require_once "./models/Compte.php";
+require_once "./models/CompteRepository.php";
 class CompteService{
-    private array $comptes=[];
-
-    
-  //Request ==$_GET,$_POST $_REQUEST
-  //Response ==> require_once("list.compte.html.php")
+    private CompteRepository $compteRepository;
+    public function __construct()
+    {
+     $this->compteRepository =new CompteRepository();
+    }
     /**
      * Get the value of comptes
      */
     public function listerCompte(): array
     {
-          return $this->comptes;
+     return  $this->compteRepository->selectAllCompte();
     }
     public function addCompte(Compte $compte): void
     {
-        $this->comptes[] = $compte;
+      $this->compteRepository->insertCompte($compte);
     }
-
-    /*
-      public function action(): void
-       {
-          1.Request ==$_GET,$_POST $_REQUEST ==>Recuperer les donnees provenant de la vue
-          2.useCase()
-          3.Response ==> require_once("vue.html.php")==>Mettre a jour la vue
-       }
-     */
+    public function searchCompteByNum(string $numero): Compte|null
+    {
+      return $this->compteRepository->selectCompteByNum($numero);
+    }
 }

@@ -1,6 +1,6 @@
 <?php 
-abstract class Compte{
-    protected static int $nbre=0;
+ class Compte{
+    protected static int $nbre=2;
     protected int $id;
     protected \DateTime $dateCreation; 
     protected float $solde;
@@ -8,16 +8,15 @@ abstract class Compte{
     //OneToMany
     private  array $transactions=[];
 
-    public abstract function retrait(Transaction $transaction);
-    public abstract function depot(Transaction $transaction);
+    //public abstract function retrait(Transaction $transaction);
+   // public abstract function depot(Transaction $transaction);
 
     //self ==> Compte
     //$this==> objet qui utilise la methode de la classe
-    public function  __construct(float $solde){   
-        Compte::$nbre++;
-        $this->id=Compte::$nbre;
-        $this->numero="NUM_".$this->id;
-        $this->solde=$solde;
+    public function  __construct(float $solde=0){   
+         Compte::$nbre++;
+         $this->numero="NUM_".(Compte::$nbre);
+         $this->solde=$solde;
     }
     /**
      * Get the value of id
@@ -110,4 +109,15 @@ abstract class Compte{
     {
         $this->transactions[] = $transaction;
     }
+
+   public static function toCompte($row):Compte{
+      $compte=new Compte();
+      $compte->setId($row['id']);
+      $compte->setNumero($row['numero']);
+      // $compte->setDateCreation($row['dateCreation']);
+      $compte->setSolde($row['solde']);
+      return $compte;
+
+    }
+    
 }
