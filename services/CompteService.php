@@ -1,6 +1,6 @@
 <?php 
-require_once "./models/Compte.php";
-require_once "./models/CompteRepository.php";
+require_once "./../models/Compte.php";
+require_once "./../repository/CompteRepository.php";
 class CompteService{
     private CompteRepository $compteRepository;
     public function __construct()

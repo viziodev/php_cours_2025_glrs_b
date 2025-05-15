@@ -1,6 +1,6 @@
 <?php 
  class Compte{
-    protected static int $nbre=2;
+    protected static int $nbre=11;
     protected int $id;
     protected \DateTime $dateCreation; 
     protected float $solde;
