@@ -17,7 +17,7 @@ class Database{
                  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                ]);
             }
-           
+
         }
          catch (\PDOException $ex) {
             echo("Erreur ".$ex->getMessage());

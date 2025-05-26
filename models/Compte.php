@@ -1,6 +1,5 @@
 <?php 
  class Compte{
-    protected static int $nbre=11;
     protected int $id;
     protected \DateTime $dateCreation; 
     protected float $solde;
@@ -14,9 +13,8 @@
     //self ==> Compte
     //$this==> objet qui utilise la methode de la classe
     public function  __construct(float $solde=0){   
-         Compte::$nbre++;
-         $this->numero="NUM_".(Compte::$nbre);
          $this->solde=$solde;
+         $this->dateCreation=new DateTime();
     }
     /**
      * Get the value of id
@@ -41,6 +39,10 @@
     public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
+    }
+    public function getDateCreationToString(): string
+    {
+        return $this->dateCreation->format("d/m/Y");
     }
 
     /**
@@ -111,10 +113,10 @@
     }
 
    public static function toCompte($row):Compte{
-      $compte=new Compte();
-      $compte->setId($row['id']);
-      $compte->setNumero($row['numero']);
-      // $compte->setDateCreation($row['dateCreation']);
+       $compte=new Compte();
+       $compte->setId($row['id']);
+       $compte->setNumero($row['numero']);
+       $compte->setDateCreation(new DateTime($row['dateCreation']));
       $compte->setSolde($row['solde']);
       return $compte;
 

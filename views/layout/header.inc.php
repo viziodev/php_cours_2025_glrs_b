@@ -16,13 +16,14 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     </head>
 
     <body>
         <header>
             <!-- place navbar here -->
              <nav
-                class="navbar navbar-expand-sm navbar-primary bg-primary"
+                class="navbar navbar-expand-sm navbar-ligth bg-dark"
              >
                 <div class="container">
                     <a class="navbar-brand  text-white" href="#">Gestion des Comptes</a>
@@ -46,7 +47,7 @@
                                 >
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link  text-white" href="index.php?page=list">Compte</a>
+                                <a class="nav-link  text-white" href="index.php?controller=compte&action=list">Compte</a>
                             </li>
                             
                         </ul>

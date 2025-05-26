@@ -7,8 +7,20 @@ class CompteRepository{
     {
         $this->database=new Database();
     }
-    public function selectAllCompte():array{
-        $sql="select * from compte";
+    public function selectAllCompte(int $page,int $limit):array{
+        /*
+           
+           page=1 ==>  Limit 0,6     offset=(1-1)*6=0     //Ligne  1 ---> 5
+           page=2 ==>  Limit 6,6     offset=(2-1)*6=6      //Ligne  6 ---> 11
+           page=3 ==>  Limit 12,6    offset=(3-1)*6=12    //Ligne 12 ---> 17
+
+
+           page=? ==> Limit offset,limit
+                      offset=(page-1)*limit
+        
+        */
+        $offset=($page-1)*$limit;
+        $sql="select * from compte LIMIT $offset,$limit";
        try {
             //2-Executer la Requete
             //3-Recuperer les donnees sous forme de tableau
@@ -39,7 +51,7 @@ class CompteRepository{
     }
 
     public function selectCompteByNum(string $num):Compte|null{
-        $sql="select * from compte where numero='$num'";
+        $sql="select * from compte where numero like '$num'";
         try {
               $stmt = $this->database->getPdo()->query($sql);
               if($row = $stmt->fetch()){
@@ -54,7 +66,8 @@ class CompteRepository{
     }
 
     public function insertCompte(Compte $compte):int{
-        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`) VALUES ('".$compte->getNumero()."', '2025-05-15', '".$compte->getSolde()."');";
+        $dateString=  $compte->getDateCreation()->format("Y-m-d");
+        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`) VALUES ('".$compte->getNumero()."',"."'$dateString'".", '".$compte->getSolde()."');";
         $nbreCompteInsere =0;
         try {
                $nbreCompteInsere = $this->database->getPdo()->exec($sql); 
@@ -66,4 +79,35 @@ class CompteRepository{
         return  $nbreCompteInsere;
     }
 
+    //SELECT id FROM `compte` ORDER by `id` desc LIMIT 0,1;
+
+
+    public function selectLastInsertId():int{
+        $sql="SELECT id FROM `compte` ORDER by `id` desc LIMIT 0,1";
+        try {
+              $stmt = $this->database->getPdo()->query($sql);
+              if($row = $stmt->fetch()){
+                return $row["id"];
+              }
+             
+       } catch (\PDOException $ex) {
+            echo("Erreur ".$ex->getMessage());
+            exit;
+       }  
+        return 0;
+    }
+
+    public function count():int{
+        $sql="SELECT count(id) as count FROM `compte`";
+        try {
+              $stmt = $this->database->getPdo()->query($sql);
+              if($row = $stmt->fetch()){
+                return $row["count"];
+              }
+       } catch (\PDOException $ex) {
+            echo("Erreur ".$ex->getMessage());
+            exit;
+       }  
+        return 0;
+    }
 }

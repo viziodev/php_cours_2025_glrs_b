@@ -1,35 +1,68 @@
 <?php 
 require_once "./../services/CompteService.php";
 require_once "./../models/Compte.php";
-class CompteController{
-      private CompteService $compteService;
+require_once "./../controllers/Controller.php";
+class CompteController extends Controller{
       public  function __construct()
       {
-        $this->compteService=new CompteService();
+         $this->compteService=new CompteService();
+         $this->callAction();
       }
+
+       public function callAction(){
+        $action =$_REQUEST['action']??"list";//form
+        switch ( $action) {
+           case 'list':
+               $this->showList();
+               break;
+           case 'form':
+                $this->loadForm();
+                   break;
+            case 'create':
+                 $this->createCompte();
+                       break;
+           default:
+               # code...
+               break;
+        }
+       }
+
      public function showList(){
-         $comptes=$this->compteService->listerCompte();
-        //Reponse
-        require_once "../views/layout/header.inc.php";
-        require_once "../views/comptes/list.html.php";
-        require_once "../views/layout/footer.inc.php";
+        $numero=$_REQUEST['numero']??"";
+        $currentPage=$_REQUEST['page']??1;
+       
+        $nbrePage=0;
+        if(empty($numero)){
+            $comptes=$this->compteService->listerCompte($currentPage);
+            $nbrePage=$this->compteService->getNbrePage();
+        }else{
+            $numero=$_REQUEST['numero'];
+            $compte=$this->compteService->searchCompteByNum($numero);
+            $comptes=[];
+            if ($compte!=null) {
+                $comptes=[$compte];
+                $nbrePage=1;
+            }
+        }
+
+        $this->renderView("comptes/list",[
+            "comptes"=> $comptes,
+            "nbrePage"=> $nbrePage,
+        ]);
      }
 
      public function loadForm(){
-        require_once "../views/layout/header.inc.php";
-        require_once "../views/comptes/form.html.php";
-        require_once "../views/layout/footer.inc.php";
+        $this->renderView("comptes/form");
     }
 
     public function createCompte(){
         //Recuperer les donnees du Formulaire
-         $solde=$_GET['solde'];
-        //Creer un Objet de type Compte
-        $compte=new Compte($solde);
-        if ($this->compteService->searchCompteByNum($compte->getNumero())==null) {
+           $solde=$_REQUEST['solde'];
+          //Creer un Objet de type Compte
+           $compte=new Compte($solde);
             $this->compteService->addCompte($compte);
-            
-        }
-        header("location:index.php?page=list");
+
+        //Redirection
+         header("location:index.php?page=list");
     }
 }
