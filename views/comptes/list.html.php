@@ -47,6 +47,7 @@
                                 <tr>
                              
                                     <th>Numero</th>
+                                    <th>Titulaire</th>
                                     <th>Date Creation</th>
                                     <th>Solde</th>
                                     <th>Actions</th>
@@ -57,6 +58,7 @@
                                     <tr>
                                         
                                         <td><?=$compte->getNumero()?></td>
+                                        <td><?=$compte->getTitulaire()?></td>
                                         <td><?=$compte->getDateCreationToString()?></td>
                                         <td><?=$compte->getSolde()?></td>
                                         <th>
@@ -64,7 +66,7 @@
                                             name=""
                                             id=""
                                             class="btn btn-outline-dark btn-sm"
-                                            href="index.php?controller=transaction&action=list"
+                                            href="index.php?controller=transaction&action=list&id=<?=$compte->getId()?>"
                                             role="button"
                                             > <i class="fas fa-eye"></i>Transactions </a >
                                           </th>

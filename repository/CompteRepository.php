@@ -67,7 +67,7 @@ class CompteRepository{
 
     public function insertCompte(Compte $compte):int{
         $dateString=  $compte->getDateCreation()->format("Y-m-d");
-        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`) VALUES ('".$compte->getNumero()."',"."'$dateString'".", '".$compte->getSolde()."');";
+        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`,titulaire) VALUES ('".$compte->getNumero()."',"."'$dateString'".", '".$compte->getSolde()."','".$compte->getTitulaire()."');";
         $nbreCompteInsere =0;
         try {
                $nbreCompteInsere = $this->database->getPdo()->exec($sql); 

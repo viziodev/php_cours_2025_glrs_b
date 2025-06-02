@@ -25,6 +25,11 @@ class CompteService{
       return $this->compteRepository->selectCompteByNum($numero);
     }
 
+    public function searchCompteById(int $id): Compte|null
+    {
+      return $this->compteRepository->selectCompteById($id);
+    }
+
     private function generateNumero():string{
       $lastId=$this->compteRepository->selectLastInsertId();
       return "NUM_".($lastId+1);

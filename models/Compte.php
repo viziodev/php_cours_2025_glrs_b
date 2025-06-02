@@ -4,6 +4,7 @@
     protected \DateTime $dateCreation; 
     protected float $solde;
     protected  string $numero;
+    protected  string $titulaire;
     //OneToMany
     private  array $transactions=[];
 
@@ -12,8 +13,9 @@
 
     //self ==> Compte
     //$this==> objet qui utilise la methode de la classe
-    public function  __construct(float $solde=0){   
+    public function  __construct(float $solde=0,string $titulaire=""){   
          $this->solde=$solde;
+         $this->titulaire=$titulaire;
          $this->dateCreation=new DateTime();
     }
     /**
@@ -117,9 +119,28 @@
        $compte->setId($row['id']);
        $compte->setNumero($row['numero']);
        $compte->setDateCreation(new DateTime($row['dateCreation']));
-      $compte->setSolde($row['solde']);
+       $compte->setSolde($row['solde']);
+       $compte->setTitulaire($row['titulaire']);
       return $compte;
 
     }
     
+
+    /**
+     * Get the value of titulaire
+     */
+    public function getTitulaire(): string
+    {
+        return $this->titulaire;
+    }
+
+    /**
+     * Set the value of titulaire
+     */
+    public function setTitulaire(string $titulaire): self
+    {
+        $this->titulaire = $titulaire;
+
+        return $this;
+    }
 }

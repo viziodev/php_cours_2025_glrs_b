@@ -3,6 +3,7 @@ require_once "./../services/CompteService.php";
 require_once "./../models/Compte.php";
 require_once "./../controllers/Controller.php";
 class CompteController extends Controller{
+    private CompteService $compteService;
       public  function __construct()
       {
          $this->compteService=new CompteService();
@@ -44,11 +45,11 @@ class CompteController extends Controller{
                 $nbrePage=1;
             }
         }
-
-        $this->renderView("comptes/list",[
-            "comptes"=> $comptes,
-            "nbrePage"=> $nbrePage,
-        ]);
+    $data=[
+    "comptes"=> $comptes,
+    "nbrePage"=> $nbrePage,
+    ];
+        $this->renderView("comptes/list",$data);
      }
 
      public function loadForm(){
@@ -57,12 +58,15 @@ class CompteController extends Controller{
 
     public function createCompte(){
         //Recuperer les donnees du Formulaire
-           $solde=$_REQUEST['solde'];
-          //Creer un Objet de type Compte
-           $compte=new Compte($solde);
+          /* $solde=$_REQUEST['solde'];
+           $titulaire=$_REQUEST['titulaire'];
+          */
+             extract($_REQUEST);
+            //Creer un Objet de type Compte
+            $compte=new Compte($solde,$titulaire);
             $this->compteService->addCompte($compte);
 
         //Redirection
-         header("location:index.php?page=list");
+         header("location:index.php?controller=compte&action=list");
     }
 }
