@@ -1,12 +1,15 @@
 <?php 
 require_once "./../models/Transaction.php";
 require_once "./../repository/TransactionRepository.php";
+require_once "./../repository/CompteRepository.php";
 class TransactionService{
     private TransactionRepository $transactionRepository;
+    private CompteRepository $compteRepository;
     private const LIMIT=6;
     public function __construct()
     {
      $this->transactionRepository =new TransactionRepository();
+     $this->compteRepository =new CompteRepository();
     }
     /**
      * Get the value of comptes
@@ -34,7 +37,13 @@ class TransactionService{
 
     public function addTransaction(Transaction $transaction): void
     {
-      $this->transactionRepository->insertTransaction($transaction);
+      //Transaction SGBD ==> ACID
+        $montant=$transaction->getType()=="DEPOT"?$transaction->getMontant():-1*$transaction->getMontant();
+        $compte =$this->compteRepository->selectCompteById($transaction->getCompteId());
+        $soldeApres= $compte->getSolde()+$montant;
+        $transaction->setSoldeApres($soldeApres);
+        $this->transactionRepository->insertTransaction($transaction);
+       $this->compteRepository->updateCompte($transaction->getCompteId(), $montant);
     }
     
 }

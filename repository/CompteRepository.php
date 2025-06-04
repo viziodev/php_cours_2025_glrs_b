@@ -79,6 +79,18 @@ class CompteRepository{
         return  $nbreCompteInsere;
     }
 
+    public function updateCompte(int  $compteId,int $montant):int{
+        $sql="UPDATE `compte` SET `solde` = `solde` + '$montant' WHERE `compte`.`id` = $compteId;";
+        $nbreCompteInsere =0;
+        try {
+               $nbreCompteInsere = $this->database->getPdo()->exec($sql); 
+        } catch (\PDOException $ex) {
+             echo("Erreur ".$ex->getMessage());
+             exit;
+        }  
+        return  $nbreCompteInsere;
+    }
+
     //SELECT id FROM `compte` ORDER by `id` desc LIMIT 0,1;
 
 

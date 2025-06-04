@@ -31,7 +31,7 @@ class TransactionRepository{
 
     public function insertTransaction(Transaction $transaction):int{
         $dateString=  $transaction->getDate()->format("Y-m-d");
-        $sql="INSERT INTO `transaction` (`type`,`date`, `montant`,`compte_id`) VALUES ('".$transaction->getType()."',"."'$dateString'".", '".$transaction->getMontant()."','".$transaction->getCompteId()."');";
+        $sql="INSERT INTO `transaction` (`type`,`date`, `montant`,`compte_id`,`solde_apres`) VALUES ('".$transaction->getType()."',"."'$dateString'".", '".$transaction->getMontant()."','".$transaction->getCompteId()."','".$transaction->getSoldeApres()."');";
         $nbreCompteInsere =0;
         try {
                $nbreCompteInsere = $this->database->getPdo()->exec($sql); 

@@ -1,5 +1,6 @@
 <?php 
 abstract class Controller{
+    protected $layout="base";
    
     protected function __construct()
     {
@@ -11,36 +12,15 @@ abstract class Controller{
     protected abstract function callAction();
 
 
-    protected function renderView(string $view,array $data=[])
+    protected function renderView(string $path,array $data=[])
     {
-        /*
-          extract : La fonction extract() en PHP permet d’importer 
-          les éléments d’un tableau associatif dans la table
-           des symboles (en variables PHP locales). Autrement dit, chaque clé du tableau devient une variable, et sa valeur devient la valeur de cette variable.
-           Exemple : 
-           $data = [
-            'nom' => 'Alice',
-            'age' => 25
-           ];
-            $nom= $data['nom'];
-            $age= $data['age'];
-            ou
-             extract($data );  
-             echo $nom=> 'Alice'
-             echo $age=> 25
+           extract($data);
+            ob_start();
+               require_once "../views/$path.html.php";
+           $view= ob_get_clean();
 
-              $data=[
-                "comptes"=> $comptes,
-                "nbrePage"=> $nbrePage,
-               ];
-               extract($data);
-               $comptes,$nbrePage
-
-        */
-         extract($data);
-         require_once "../views/layout/header.inc.php";
-         require_once "../views/$view.html.php";
-         require_once "../views/layout/footer.inc.php";
+           require_once "../views/layout/$this->layout.layout.php";
+        
     }
 
 }

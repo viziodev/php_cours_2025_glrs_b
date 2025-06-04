@@ -84,7 +84,7 @@ class Transaction{
         $transaction->setDate(new DateTime($row['date']));
         $transaction->setMontant($row['montant']);
         $transaction->setType($row['type']);
-        $transaction->setSoldeApres($row['solde']??0);
+        $transaction->setSoldeApres($row['solde_apres']??0);
         //Styles
         $transaction->textStyleMontant=$row['type']=="DEPOT"?"text-success":"text-danger";
         $transaction->bgStyleType=$row['type']=="DEPOT"?"bg-success":"bg-danger";
