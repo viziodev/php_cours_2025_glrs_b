@@ -8,19 +8,34 @@ class UtilisateurRepository{
         $this->database=new Database();
     }
 
-    public function selectUserByLoginAndPassword(string $login,string $password):Utilisateur|null{
+    public function selectUserByLoginAndPassword(string $login,string $password):null|array{
         $sql="SELECT * FROM `utilisateur` WHERE login='$login' and password='$password';";
         try {
               $stmt = $this->database->getPdo()->query($sql);
              if($row = $stmt->fetch()){
-                return Utilisateur::toUser($row);
-             }
-            
+                return $row;
+             } 
        } catch (\PDOException $ex) {
             echo("Erreur ".$ex->getMessage());
             exit;
        }  
         return null;
+    }
+
+    public function selectAllUserByRole(string $role="CLIENT"):array{
+        $sql="SELECT * FROM `utilisateur` WHERE role='$role'";
+        try {
+              $stmt = $this->database->getPdo()->query($sql);
+              $users=[];
+             while($row = $stmt->fetch()){
+                $users[]=Utilisateur::toUser($row );
+             } 
+             return  $users;
+       } catch (\PDOException $ex) {
+            echo("Erreur ".$ex->getMessage());
+            exit;
+       }  
+        return [];
     }
 
     

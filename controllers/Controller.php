@@ -4,7 +4,9 @@ abstract class Controller{
    
     protected function __construct()
     {
-        
+        if (session_status()==PHP_SESSION_NONE) {
+            session_start();
+         }
     }
     /*
         callAction: Elle gere les actions d'un controllers

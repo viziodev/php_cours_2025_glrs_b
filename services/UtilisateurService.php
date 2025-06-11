@@ -11,9 +11,14 @@ class UtilisateurService{
     /**
      * Get the value of comptes
      */
-    public function seConnecter(string $login,string $password): Utilisateur|null
+    public function seConnecter(string $login,string $password): array|null
     {
      return  $this->userRepository->selectUserByLoginAndPassword($login,$password);
+    }
+
+    public function listeClient(): array
+    {
+       return  $this->userRepository->selectAllUserByRole();
     }
     
 }

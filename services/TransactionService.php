@@ -43,7 +43,7 @@ class TransactionService{
         $soldeApres= $compte->getSolde()+$montant;
         $transaction->setSoldeApres($soldeApres);
         $this->transactionRepository->insertTransaction($transaction);
-       $this->compteRepository->updateCompte($transaction->getCompteId(), $montant);
+        $this->compteRepository->updateCompte($transaction->getCompteId(), $montant);
     }
     
 }

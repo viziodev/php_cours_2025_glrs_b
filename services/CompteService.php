@@ -11,9 +11,9 @@ class CompteService{
     /**
      * Get the value of comptes
      */
-    public function listerCompte(int $page=1,int $limit=self::LIMIT): array
+    public function listerCompte(int|null $clientId,int $page=1,int $limit=self::LIMIT): array
     {
-     return  $this->compteRepository->selectAllCompte($page,$limit);
+     return  $this->compteRepository->selectAllCompte($clientId,$page,$limit);
     }
     public function addCompte(Compte $compte): void
     {

@@ -1,16 +1,24 @@
 <?php 
 require_once "./../services/CompteService.php";
+require_once "./../services/UtilisateurService.php";
 require_once "./../models/Compte.php";
 require_once "./../controllers/Controller.php";
 class CompteController extends Controller{
     private CompteService $compteService;
+    private UtilisateurService $userService;
       public  function __construct()
       {
+         parent::__construct();
          $this->compteService=new CompteService();
+         $this->userService=new UtilisateurService();
          $this->callAction();
       }
 
        public function callAction(){
+        if (!isset($_SESSION['user'])) {
+            header("location:index.php");
+            exit;
+         }
         $action =$_REQUEST['action']??"list";//form
         switch ( $action) {
            case 'list':
@@ -29,12 +37,13 @@ class CompteController extends Controller{
        }
 
      public function showList(){
+
         $numero=$_REQUEST['numero']??"";
         $currentPage=$_REQUEST['page']??1;
-       
+        $clientId=$_SESSION['user']['role']=="ADMIN"?null:$_SESSION['user']['id'];
         $nbrePage=0;
         if(empty($numero)){
-            $comptes=$this->compteService->listerCompte($currentPage);
+            $comptes=$this->compteService->listerCompte($clientId,$currentPage);
             $nbrePage=$this->compteService->getNbrePage();
         }else{
             $numero=$_REQUEST['numero'];
@@ -53,20 +62,43 @@ class CompteController extends Controller{
      }
 
      public function loadForm(){
-        $this->renderView("comptes/form");
+        $clients= $this->userService->listeClient();
+        $this->renderView("comptes/form",[
+              "clients"=>$clients
+        ]);
     }
 
     public function createCompte(){
-        //Recuperer les donnees du Formulaire
-          /* $solde=$_REQUEST['solde'];
-           $titulaire=$_REQUEST['titulaire'];
-          */
-             extract($_REQUEST);
-            //Creer un Objet de type Compte
-            $compte=new Compte($solde,$titulaire);
-            $this->compteService->addCompte($compte);
+             //1-Recuperer les donnees du Formulaire
+              extract($_REQUEST);
+              $erreurs=[];//Vide 
+             //2-Valider les donnees
+               if ($titulaire=="0") {
+                  $erreurs['titulaire']="Veuiller  Selectionnez le titulaire du compte";
+                  unset($_POST['titulaire']);
+               }
+               if ($solde=="" || $solde<10000) {
+                  //Erreur 
+                  $erreurs['solde']="Veuiller  saisir un solde superieur a 10000";
+                  unset($_POST['solde']);
+               }
+             //$erreurs contient des valeurs ==> c'est a dire il y'a erreur
+               if (empty($erreurs)) {
+               //3-Creer un Objet de type Compte
+                  $compte=new Compte($solde,$titulaire);
+                  $this->compteService->addCompte($compte);
+               }else{
+                   $_SESSION['erreurs']= $erreurs;
+                   $_SESSION['data']= $_POST;
+
+                   header("location:index.php?controller=compte&action=form");
+                   exit;
+               }
+    
+           
 
         //Redirection
          header("location:index.php?controller=compte&action=list");
+         exit;
     }
 }

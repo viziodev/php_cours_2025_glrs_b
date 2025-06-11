@@ -7,7 +7,7 @@ class CompteRepository{
     {
         $this->database=new Database();
     }
-    public function selectAllCompte(int $page,int $limit):array{
+    public function selectAllCompte(int|null $clientId, int $page,int $limit):array{
         /*
            
            page=1 ==>  Limit 0,6     offset=(1-1)*6=0     //Ligne  1 ---> 5
@@ -19,8 +19,13 @@ class CompteRepository{
                       offset=(page-1)*limit
         
         */
+          $where=" where c.`client_id`=u.id ";
+         if ($clientId!=null) {
+               $where.=" and client_id =$clientId" ;
+         }
         $offset=($page-1)*$limit;
-        $sql="select * from compte LIMIT $offset,$limit";
+        $sql="select c.*,u.nomComplet as titulaire from `compte`c, utilisateur u  $where LIMIT $offset,$limit";
+        
        try {
             //2-Executer la Requete
             //3-Recuperer les donnees sous forme de tableau
@@ -38,7 +43,7 @@ class CompteRepository{
     }
 
     public function selectCompteById(int $id):Compte|null{
-        $sql="select * from compte where id=$id";
+        $sql="select c.*,u.nomComplet as titulaire  from `compte`c, utilisateur u where c.`client_id`=u.id and  c.id=$id";
         try {
               $stmt = $this->database->getPdo()->query($sql);
               $row = $stmt->fetch();
@@ -51,7 +56,7 @@ class CompteRepository{
     }
 
     public function selectCompteByNum(string $num):Compte|null{
-        $sql="select * from compte where numero like '$num'";
+        $sql="select c.*,u.nomComplet as titulaire from `compte`c, utilisateur u where c.`client_id`=u.id and  numero like '$num'";
         try {
               $stmt = $this->database->getPdo()->query($sql);
               if($row = $stmt->fetch()){
@@ -67,7 +72,8 @@ class CompteRepository{
 
     public function insertCompte(Compte $compte):int{
         $dateString=  $compte->getDateCreation()->format("Y-m-d");
-        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`,titulaire) VALUES ('".$compte->getNumero()."',"."'$dateString'".", '".$compte->getSolde()."','".$compte->getTitulaire()."');";
+        $clientId=$compte->getTitulaire();
+        $sql="INSERT INTO `compte` ( `numero`, `dateCreation`, `solde`,client_id) VALUES ('".$compte->getNumero()."',"."'$dateString'".", '".$compte->getSolde()."', $clientId);";
         $nbreCompteInsere =0;
         try {
                $nbreCompteInsere = $this->database->getPdo()->exec($sql); 

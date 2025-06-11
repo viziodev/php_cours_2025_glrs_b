@@ -3,8 +3,9 @@
             <div class="container ">
                 <div class="d-flex justify-content-between my-1">
                 <h3>Liste des Compte</h3>
-             
-                 <div class="">
+             <?php
+               if ($_SESSION['user']['role']=="ADMIN"): ?>
+                    <div class="">
                        <a
                         name=""
                         id=""
@@ -12,7 +13,8 @@
                         href="index.php?controller=compte&action=form"
                         role="button"
                         > <i class="fas fa-plus"></i>Nouveau </a >
-                            </div>
+                    </div>
+               <?php endif ?>
                 </div>
                    <div class="shadow p-2 mb-1 bg-body rounded my-1">
                        <form class="d-flex" method="post">

@@ -26,9 +26,11 @@
 <div class="container my-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Détails du compte</h2>
-    <div>
-      <a href="index.php?controller=transaction&action=form&id=<?php echo $compte->getId()?>" class="btn btn-dark">+ Nouvelle transaction</a>
-    </div>
+    <?php if ($_SESSION['user']['role']=="ADMIN"): ?>
+      <div>
+         <a href="index.php?controller=transaction&action=form&id=<?php echo $compte->getId()?>" class="btn btn-dark">+ Nouvelle transaction</a>
+      </div>
+    <?php endif ?>
   </div>
 
 <div class="row mb-2">

@@ -8,14 +8,21 @@ class TransactionController extends Controller{
        private TransactionService $transactionService;
       public  function __construct()
       {
+        parent::__construct();
+        
         $this->compteService=new CompteService();
         $this->transactionService=new TransactionService();
         $this->callAction();
       }
 
       public function callAction(){
-        $action =$_REQUEST['action']??"list";//form
-        switch ( $action) {
+        //Erreur a la deconnexion 
+        if (!isset($_SESSION['user'])) {
+          header("location:index.php");
+          exit;
+        }
+         $action =$_REQUEST['action']??"list";//form
+         switch ( $action) {
            case 'list':
                if(!isset($_REQUEST['id'])){
                 header("location:index.php?controller=compte&action=list");
