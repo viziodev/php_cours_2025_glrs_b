@@ -1,6 +1,9 @@
 <?php 
-require_once "./../models/Utilisateur.php";
-require_once "./../repository/UtilisateurRepository.php";
+namespace  App\Services;
+
+use App\Models\Utilisateur;
+use App\Repository\UtilisateurRepository;
+
 class UtilisateurService{
     private UtilisateurRepository $userRepository;
 

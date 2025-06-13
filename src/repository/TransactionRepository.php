@@ -1,5 +1,8 @@
 <?php 
-require_once "./../config/Database.php";
+namespace App\Repository;
+use  App\Config\Database;
+use App\Models\Transaction;
+
 class TransactionRepository{
     
     private Database $database;

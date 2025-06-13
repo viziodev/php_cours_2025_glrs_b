@@ -1,5 +1,9 @@
 <?php 
-require_once "./../config/Database.php";
+namespace App\Repository;
+
+use App\Models\Compte;
+use App\Config\Database;
+
 class CompteRepository{
     
     private Database $database;

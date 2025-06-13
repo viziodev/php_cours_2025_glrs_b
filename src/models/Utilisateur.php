@@ -1,4 +1,5 @@
 <?php 
+namespace App\Models;
 class Utilisateur{
     private int $id;
     private string $nomComplet;

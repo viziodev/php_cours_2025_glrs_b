@@ -1,27 +1,19 @@
 <?php 
-
-
-//SPA ==>Single Page Application
-//Request
-
+require '../vendor/autoload.php';
 $controller =$_REQUEST['controller']??"security";//form
         switch ( $controller ) {
             case 'security':
-                require_once "../controllers/SecurityController.php";
-                $controller=new  SecurityController();
+                $controller=new \App\Controllers\SecurityController();
                break;
             case 'compte':
-                require_once "../controllers/CompteController.php";
-                $controller=new  CompteController();
+                $controller=new  \App\Controllers\CompteController();
                break;
             case 'transaction':
-                require_once "../controllers/TransactionController.php";
-                $controller=new  TransactionController();
+                $controller=new  \App\Controllers\TransactionController();
                 break;
            default:
                # code...
                break;
         }
-
 
 ?>

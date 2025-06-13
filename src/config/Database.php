@@ -1,7 +1,7 @@
 <?php 
+namespace App\Config;
 class Database{
     private \PDO|null $pdo=null; 
-
     public  function __construct()
     {
         try {
@@ -12,12 +12,11 @@ class Database{
            $charset = 'utf8mb4';
            $dsn="mysql:host=$host;dbname=$dbname;charset=$charset";
             if ($this->pdo ==null) {
-                 $this->pdo = new PDO($dsn, $username, $password, [
-                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                 $this->pdo = new \PDO($dsn, $username, $password, [
+                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                 \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                ]);
             }
-
         }
          catch (\PDOException $ex) {
             echo("Erreur ".$ex->getMessage());

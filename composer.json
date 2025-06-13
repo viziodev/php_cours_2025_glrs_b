@@ -1,0 +1,21 @@
+{
+    "name": "douvewane/php_compte",
+    "description": "Gestion des compte",
+    "autoload": {
+        "psr-4": {
+             "App\\": "src/",
+              "App\\Config\\": "src/config/",
+              "App\\Models\\": "src/models/",
+              "App\\Repository\\": "src/repository/",
+              "App\\Services\\": "src/services/",
+              "App\\Controllers\\": "src/controllers/"
+        }
+    },
+    "authors": [
+        {
+            "name": "douvewane",
+            "email": "douvewane85@gmail.com"
+        }
+    ],
+    "require": {}
+}

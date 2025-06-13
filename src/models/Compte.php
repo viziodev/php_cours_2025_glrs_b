@@ -1,22 +1,16 @@
 <?php 
+namespace App\Models;
  class Compte{
     protected int $id;
     protected \DateTime $dateCreation; 
     protected float $solde;
     protected  string $numero;
     protected  string $titulaire;
-    //OneToMany
     private  array $transactions=[];
-
-    //public abstract function retrait(Transaction $transaction);
-   // public abstract function depot(Transaction $transaction);
-
-    //self ==> Compte
-    //$this==> objet qui utilise la methode de la classe
     public function  __construct(float $solde=0,string $titulaire=""){   
          $this->solde=$solde;
          $this->titulaire=$titulaire;
-         $this->dateCreation=new DateTime();
+         $this->dateCreation=new \DateTime();
     }
     /**
      * Get the value of id
@@ -118,7 +112,7 @@
        $compte=new Compte();
        $compte->setId($row['id']);
        $compte->setNumero($row['numero']);
-       $compte->setDateCreation(new DateTime($row['dateCreation']));
+       $compte->setDateCreation(new \DateTime($row['dateCreation']));
        $compte->setSolde($row['solde']);
        $compte->setTitulaire($row['titulaire']);
       return $compte;

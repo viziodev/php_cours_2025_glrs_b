@@ -1,4 +1,5 @@
 <?php 
+namespace App\Models;
 class CompteCheque extends Compte{
     private const  Frais=0.08;
 

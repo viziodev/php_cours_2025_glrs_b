@@ -1,6 +1,8 @@
 <?php 
-require_once "./../models/Compte.php";
-require_once "./../repository/CompteRepository.php";
+namespace  App\Services;
+use App\Models\Compte;
+use App\Repository\CompteRepository;
+
 class CompteService{
     private CompteRepository $compteRepository;
     private const LIMIT=6;

@@ -1,5 +1,5 @@
 <?php 
-require_once "./../config/Validator.php";
+namespace App\Config;
 abstract class Controller{
     protected $layout="base";
     protected Validator $validator;

@@ -1,5 +1,5 @@
 <?php 
-
+namespace App\Models;
 class Transaction{
 
     private int $id;
@@ -20,7 +20,7 @@ class Transaction{
         $this->compteId=$compteId;
         $this->montant=$montant;
         $this->type=$type;
-        $this->date=new DateTime();
+        $this->date=new \DateTime();
     }
   //this.nomAttribut  ==> $this->nomAttribut
     /**
@@ -81,7 +81,7 @@ class Transaction{
     public static function toTransaction($row):Transaction{
         $transaction=new Transaction();
         $transaction->setId($row['id']);
-        $transaction->setDate(new DateTime($row['date']));
+        $transaction->setDate(new \DateTime($row['date']));
         $transaction->setMontant($row['montant']);
         $transaction->setType($row['type']);
         $transaction->setSoldeApres($row['solde_apres']??0);

@@ -1,6 +1,9 @@
 <?php 
-require_once "./../services/UtilisateurService.php";
-require_once "./../controllers/Controller.php";
+namespace App\Controllers;
+
+use App\Config\Controller;
+use App\Services\UtilisateurService;
+
 class SecurityController extends Controller{
     private UtilisateurService $userService;
     public  function __construct()
