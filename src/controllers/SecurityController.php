@@ -13,7 +13,6 @@ class SecurityController extends Controller{
         $this->layout="connexion";
         $this->callAction();
     }
-
     public function callAction(){
         $action =$_REQUEST['action']??"form";//form
         switch ( $action) {

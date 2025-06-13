@@ -3,7 +3,6 @@ namespace App\Config;
 abstract class Controller{
     protected $layout="base";
     protected Validator $validator;
-   
     protected function __construct()
     {
         if (session_status()==PHP_SESSION_NONE) {

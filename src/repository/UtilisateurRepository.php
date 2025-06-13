@@ -1,16 +1,15 @@
 <?php 
 namespace App\Repository;
 use  App\Config\Database;
+use App\Config\Repository;
 use App\Models\Utilisateur;
 
-class UtilisateurRepository{
+class UtilisateurRepository extends Repository{
     
-    private Database $database;
     public function __construct()
     {
-        $this->database=new Database();
+        parent::__construct();
     }
-
     public function selectUserByLoginAndPassword(string $login,string $password):null|Utilisateur{
         $sql="SELECT * FROM `utilisateur` WHERE login='$login' and password='$password';";
         try {
