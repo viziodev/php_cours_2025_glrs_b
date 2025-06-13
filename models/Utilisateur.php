@@ -107,4 +107,15 @@ class Utilisateur{
         return $user;
  
      }
+
+     public  function toArray():array{
+        return [
+           "id"=>$this->id,
+           "nomComplet"=>$this->nomComplet,
+           "login"=>$this->login,
+           "password"=>$this->password,
+           "role"=>$this->role,
+        ];
+ 
+     }
 }

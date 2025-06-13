@@ -8,12 +8,12 @@ class UtilisateurRepository{
         $this->database=new Database();
     }
 
-    public function selectUserByLoginAndPassword(string $login,string $password):null|array{
+    public function selectUserByLoginAndPassword(string $login,string $password):null|Utilisateur{
         $sql="SELECT * FROM `utilisateur` WHERE login='$login' and password='$password';";
         try {
               $stmt = $this->database->getPdo()->query($sql);
              if($row = $stmt->fetch()){
-                return $row;
+                return Utilisateur::toUser($row );
              } 
        } catch (\PDOException $ex) {
             echo("Erreur ".$ex->getMessage());

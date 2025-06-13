@@ -8,17 +8,6 @@ class CompteRepository{
         $this->database=new Database();
     }
     public function selectAllCompte(int|null $clientId, int $page,int $limit):array{
-        /*
-           
-           page=1 ==>  Limit 0,6     offset=(1-1)*6=0     //Ligne  1 ---> 5
-           page=2 ==>  Limit 6,6     offset=(2-1)*6=6      //Ligne  6 ---> 11
-           page=3 ==>  Limit 12,6    offset=(3-1)*6=12    //Ligne 12 ---> 17
-
-
-           page=? ==> Limit offset,limit
-                      offset=(page-1)*limit
-        
-        */
           $where=" where c.`client_id`=u.id ";
          if ($clientId!=null) {
                $where.=" and client_id =$clientId" ;

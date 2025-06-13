@@ -1,12 +1,15 @@
 <?php 
+require_once "./../config/Validator.php";
 abstract class Controller{
     protected $layout="base";
+    protected Validator $validator;
    
     protected function __construct()
     {
         if (session_status()==PHP_SESSION_NONE) {
             session_start();
          }
+         $this->validator=new Validator();
     }
     /*
         callAction: Elle gere les actions d'un controllers

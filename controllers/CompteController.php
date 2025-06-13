@@ -71,24 +71,20 @@ class CompteController extends Controller{
     public function createCompte(){
              //1-Recuperer les donnees du Formulaire
               extract($_REQUEST);
-              $erreurs=[];//Vide 
              //2-Valider les donnees
-               if ($titulaire=="0") {
-                  $erreurs['titulaire']="Veuiller  Selectionnez le titulaire du compte";
-                  unset($_POST['titulaire']);
-               }
-               if ($solde=="" || $solde<10000) {
-                  //Erreur 
-                  $erreurs['solde']="Veuiller  saisir un solde superieur a 10000";
-                  unset($_POST['solde']);
-               }
+             if ($this->validator->isEmpty($titulaire,'titulaire',"Veuiller  Selectionnez le titulaire du compte")){
+                    unset($_POST['titulaire']);
+             }
+             
+             if ($this->validator->isEmpty($solde,'solde',"Le Solde est obligatoire") || !$this->validator->isNumber($solde,'solde',"Le solde superieur doit etre superieur a  10000")){
+                       unset($_POST['solde']);
+             }
              //$erreurs contient des valeurs ==> c'est a dire il y'a erreur
-               if (empty($erreurs)) {
-               //3-Creer un Objet de type Compte
+               if ($this->validator->isValid()) {
                   $compte=new Compte($solde,$titulaire);
                   $this->compteService->addCompte($compte);
                }else{
-                   $_SESSION['erreurs']= $erreurs;
+                   $_SESSION['erreurs']= $this->validator->getErreurs();
                    $_SESSION['data']= $_POST;
 
                    header("location:index.php?controller=compte&action=form");

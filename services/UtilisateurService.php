@@ -11,7 +11,7 @@ class UtilisateurService{
     /**
      * Get the value of comptes
      */
-    public function seConnecter(string $login,string $password): array|null
+    public function seConnecter(string $login,string $password): Utilisateur|null
     {
      return  $this->userRepository->selectUserByLoginAndPassword($login,$password);
     }
